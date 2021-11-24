@@ -1,5 +1,5 @@
 <?php
-    $a = 9991;
+    $a = 9900;
 
     $final = array();
 
@@ -11,19 +11,37 @@
         if(!empty($numbers)){
             $aux1 = $numbers->numbers;
 
+            $i=0;
+            foreach ($aux1 as $num) {
+                if($num < 0.00009){
+                    $aux1[$i] = number_format($num, 21);   
+                }
+                $i++;
+            }
+
             $aux2 = $final;
 
-            print_r($aux1);
-
-            echo("<br><br>");
-
-            $final = array_merge($aux1, $aux2);
+            $final = array_merge($aux2, $aux1);
             
             $a++;
 
         }
     }while (!empty($aux1));
-    echo("<br><br>");
-    print_r($final);
+
+    //print_r($final);
+
+    $tamanho = count($final);
+
+    for ($i=0; $i < $tamanho ; $i++) { 
+        for ($x=0; $x < $tamanho; $x++) { 
+            if($final[$i] < $final[$x]){
+                $aux = $final[$x];
+                $final[$x] = $final[$i];
+                $final[$i] = $aux;
+            }
+        }
+    }
+
+    print_r($final)
 
 ?>
