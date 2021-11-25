@@ -1,5 +1,5 @@
 <?php
-    $a = 9900;
+    $a = 1;
 
     $final = array();
 
@@ -42,6 +42,7 @@
         }
     }
 
-    print_r($final)
+    
+    //print_r($final)
 
 ?>
