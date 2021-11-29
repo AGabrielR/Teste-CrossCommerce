@@ -3,11 +3,14 @@ header("Content-Type:application/json");
 
 include("index.php");
 
-print_r($final);
+$vetFinal = getNumbers();
 
-function response(){
-	$response = $final;
-	$json_response = json_encode($response);
-	echo $json_response;
+$vetOrdenado = transform($vetFinal);
+
+function response($vetFinal){
+	$json_response = json_encode($vetFinal);
+	echo ($json_response);
 }
+
+response($vetOrdenado);
 ?>

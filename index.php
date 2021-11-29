@@ -1,48 +1,46 @@
 <?php
-    $a = 1;
+    function getNumbers(){
+        $pagina = 1;
 
-    $final = array();
+        $vetFinal = array();
 
-    do {
-        $url = "http://challenge.dienekes.com.br/api/numbers?page=".$a;
+        do {
+            $url = "http://challenge.dienekes.com.br/api/numbers?page=".$pagina;
+                $request = json_decode(@file_get_contents($url));
 
-        $numbers = json_decode(file_get_contents($url));
+            if(!empty($request)){
+                $vetNumeros = $request->numbers;
 
-        if(!empty($numbers)){
-            $aux1 = $numbers->numbers;
-
-            $i=0;
-            foreach ($aux1 as $num) {
-                if($num < 0.00009){
-                    $aux1[$i] = number_format($num, 21);   
+                $posicao=0;
+                foreach ($vetNumeros as $num) {
+                    $vetNumeros[$posicao] = number_format($num, 21);
+                    $posicao++;
                 }
-                $i++;
+
+                $mergeArray = $vetFinal;
+
+                $vetFinal = array_merge($mergeArray, $vetNumeros);
+                
+                $pagina++;
+
             }
-
-            $aux2 = $final;
-
-            $final = array_merge($aux2, $aux1);
-            
-            $a++;
-
-        }
-    }while (!empty($aux1));
-
-    //print_r($final);
-
-    $tamanho = count($final);
-
-    for ($i=0; $i < $tamanho ; $i++) { 
-        for ($x=0; $x < $tamanho; $x++) { 
-            if($final[$i] < $final[$x]){
-                $aux = $final[$x];
-                $final[$x] = $final[$i];
-                $final[$i] = $aux;
-            }
-        }
+        }while (!empty($vetNumeros));
+        return($vetFinal);
     }
-
     
-    //print_r($final)
+    function transform($vetFinal){
+        $tamanho = count($vetFinal);
+
+        for ($i=0; $i < $tamanho ; $i++) { 
+            for ($x=0; $x < $tamanho; $x++) { 
+                if($vetFinal[$i] < $vetFinal[$x]){
+                    $guardaNum = $vetFinal[$x];
+                    $vetFinal[$x] = $vetFinal[$i];
+                    $vetFinal[$i] = $guardaNum;
+                }
+            }
+        }
+        return($vetFinal);
+    }
 
 ?>
